@@ -11,11 +11,7 @@ import kotlinx.coroutines.flow.flowOn
 class PostsRepoImpL(private val apiService: ApiService):PostsRepo {
 
         // step fore
-    override suspend fun getPostFromRemote() : Flow<PostResponse> = flow {
-
-            emit(apiService.getPosts())
-
-        }.flowOn(Dispatchers.IO)
+    override suspend fun getPostFromRemote() =apiService.getPosts()
 
 
 

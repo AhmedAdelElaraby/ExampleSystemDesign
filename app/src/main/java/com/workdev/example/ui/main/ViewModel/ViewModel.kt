@@ -9,6 +9,7 @@ import com.mg_group.womniz.ResponseDataClass.SealedClass.ApiState
 import com.workdev.domain.entity.PostResponse
 import com.workdev.domain.usecase.GetPosts
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -19,9 +20,10 @@ class ViewModel @Inject constructor (private val posts: GetPosts): ViewModel() {
 
     private val _posts :MutableLiveData<ApiState?> = MutableLiveData(ApiState.Empty)
     val getpostsLiveData:LiveData<ApiState?> =_posts
-fun getPost (){
+    private lateinit var fetchJob: Job
+    fun getPost (){
 
-        viewModelScope.launch {
+        fetchJob= viewModelScope.launch {
             _posts.value = ApiState.Loading
             posts.invoke().catch {
                 _posts.value=ApiState.Failure(it)
@@ -29,15 +31,33 @@ fun getPost (){
                 _posts.value=ApiState.Success(data)
             }
 
-
-
-
-            }
+        }
 
 
 
 
 
-}
+    }
+
+
+
+
+
+
+
+
+
+
+
+    fun clear(){
+
+        _posts.value=null
+
+    }
+
+    fun cancel_coroutines(){
+
+        fetchJob.cancel()
+    }
 
 }

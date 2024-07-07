@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface PostsRepo {
 
     // step two
-    suspend fun getPostFromRemote() : Flow<PostResponse>
+    suspend fun getPostFromRemote() : PostResponse
 
 }

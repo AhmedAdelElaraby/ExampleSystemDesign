@@ -59,4 +59,23 @@ lateinit var binding: ActivityMainBinding
         }
 
     }
+
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        viewModel.clear()
+        viewModel.cancel_coroutines()
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        viewModel.clear()
+        viewModel.cancel_coroutines()
+    }
+
+    
 }
